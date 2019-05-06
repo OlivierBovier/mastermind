@@ -2,13 +2,23 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class Mastermind
+
+class MastermindController extends AbstractController
 {
 
+	/**
+	* @route("/", name="home")
+	*/
 	function initGame () {
 		$row = 1;
 		$expertMode = 0; // 1 pour activer le mode expert (la même couleur peut être utilisée plusieurs fois dans la combinaison)
+		$combinaison = createCombinaison(4);
+
+		return $this->render('init.html.twig', ['combinaison' => $combinaison]);
+
 	}
 
 	function createCombinaison ($nbPosition) {
