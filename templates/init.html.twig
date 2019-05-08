@@ -4,6 +4,8 @@
 {% block body %}
     <h1>Commencer une nouvelle partie<h1>
 
-    {{ combinaison }}
+    {% for key, color in combinaison %}
+    	{{ key }} : {{ color}}
+    {% endfor %}
     
 {% endblock %}
