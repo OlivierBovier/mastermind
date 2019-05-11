@@ -30,9 +30,7 @@ class MastermindController extends AbstractController
     			'choices'  => [
        			 	'4' => 4,
         			'5' => 5,
-        			'5' => 6,],
-    			// *this line is important*
-    			'choice_value' => '4',
+        			'6' => 6,],
     			'label'    => 'Nombre de positions à deviner (4, 5 ou 6)',
 				])
 	        ->add('save', SubmitType::class, ['label' => 'Nouveau jeu'])
@@ -42,9 +40,8 @@ class MastermindController extends AbstractController
 
 	    if ($form->isSubmitted() && $form->isValid()) {
 	        $param = $form->getData();
-	        $this->iniGame($param);
+	        $combinaison = $this->initGame($param);
 
-	        return $this->redirectToRoute('task_success');
 	        return $this->render('game.html.twig', ['combinaison' => $combinaison]);
 	    }
 
@@ -57,13 +54,12 @@ class MastermindController extends AbstractController
 
 	function initGame ($param) {
 		$row = 1;
-		$expertMode = 0; // 1 pour activer le mode expert (la même couleur peut être utilisée plusieurs fois dans la combinaison)
-		$numberOfColoursToFind = 5;
+		$expertMode = $param['expertmode']; 
+		$numberOfColoursToFind = $param['numberofcolours'];
 
 		$combinaison = $this->createCombinaison($numberOfColoursToFind);
 
-		return $this->render('init.html.twig', ['combinaison' => $combinaison]);
-
+		return $combinaison;
 	}
 
 	function createCombinaison ($numberOfColoursToFind) {
@@ -77,6 +73,13 @@ class MastermindController extends AbstractController
 
 	function checkRow () {
 
+	}
+
+	/**
+	* @route("/scores", name="scores")
+	*/
+	function scores (Request $request) {
+		 return $this->render('scores.html.twig');		
 	}
 
 
