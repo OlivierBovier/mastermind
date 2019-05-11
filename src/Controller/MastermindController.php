@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MastermindController extends AbstractController
 {
-
 	/**
 	* @route("/", name="home")
 	*/
@@ -23,7 +22,7 @@ class MastermindController extends AbstractController
 
 	    $form = $this->createFormBuilder()
 	        ->add('expertmode', CheckboxType::class, [
-    			'label'    => 'Mode Expert(la même couleur peut être présente plusieurs fois dans la combinaison)',
+    			'label'    => 'Mode Expert (la même couleur peut être présente plusieurs fois dans la combinaison)',
     			'required' => false,
 				])
 	        ->add('numberofcolours', ChoiceType::class, [
@@ -33,7 +32,7 @@ class MastermindController extends AbstractController
         			'6' => 6,],
     			'label'    => 'Nombre de positions à deviner (4, 5 ou 6)',
 				])
-	        ->add('save', SubmitType::class, ['label' => 'Nouveau jeu'])
+	        ->add('save', SubmitType::class, ['label' => 'Nouvelle partie'])
 	        ->getForm();
 
 	    $form->handleRequest($request);
@@ -45,9 +44,7 @@ class MastermindController extends AbstractController
 	        return $this->render('game.html.twig', ['combinaison' => $combinaison]);
 	    }
 
-	    return $this->render('init.html.twig', [
-	        'form' => $form->createView(),
-	    ]);		
+	    return $this->render('init.html.twig', ['form' => $form->createView()]);		
 
 	}
 
@@ -57,17 +54,22 @@ class MastermindController extends AbstractController
 		$expertMode = $param['expertmode']; 
 		$numberOfColoursToFind = $param['numberofcolours'];
 
-		$combinaison = $this->createCombinaison($numberOfColoursToFind);
+		$combinaison = $this->createCombinaison($expertMode, $numberOfColoursToFind);
 
 		return $combinaison;
 	}
 
-	function createCombinaison ($numberOfColoursToFind) {
+	function createCombinaison ($expertMode, $numberOfColoursToFind) {
 		$availableColors = ['blanc' => '#FFFFFF', 'jaune' => '#FFF933', 'orange' => '#FF5733', 'rouge' => '#FF0000', 'bleu' => '#0000FF', 'vert' => '#00FF00', 'gris' => '#808080', 'rose' => '#FF00FF'];
 		$positionsColor = [];
 		for ($i = 1; $i <= $numberOfColoursToFind; $i++) {
-    		$positionsColor[$i] = $availableColors[array_rand($availableColors)];
+			$couleurAléatoire = array_rand($availableColors);
+    		$positionsColor[$i] = $availableColors[$couleurAléatoire];
+    		if ($expertMode == false) {
+    			unset($availableColors[$couleurAléatoire]);
+    		}    		
 		}
+
 		return $positionsColor;
 	}
 
@@ -79,6 +81,7 @@ class MastermindController extends AbstractController
 	* @route("/scores", name="scores")
 	*/
 	function scores (Request $request) {
+
 		 return $this->render('scores.html.twig');		
 	}
 

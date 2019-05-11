@@ -3,6 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}Mastermind{% endblock %}</title>
 
         {% block stylesheets %}
@@ -25,7 +26,7 @@
             {% block body %}{% endblock %}
         </div>
 
-        {% block javascripts %}
+        {% block javascripts %}          
             {{ encore_entry_script_tags('app') }}
             <!-- Renders app.js & a webpack runtime.js file
                 <script src="/build/runtime.js"></script>
