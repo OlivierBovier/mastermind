@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Combinaison;
 
 
 class MastermindController extends AbstractController
@@ -27,10 +28,10 @@ class MastermindController extends AbstractController
 				])
 	        ->add('numberofcolours', ChoiceType::class, [
     			'choices'  => [
-       			 	'4' => 4,
-        			'5' => 5,
-        			'6' => 6,],
-    			'label'    => 'Nombre de positions à deviner (4, 5 ou 6)',
+       			 	'3' => 3,
+        			'4' => 4,
+        			'5' => 5,],
+    			'label'    => 'Nombre de positions à deviner (3, 4 ou 5)',
 				])
 	        ->add('save', SubmitType::class, ['label' => 'Nouvelle partie'])
 	        ->getForm();
@@ -50,7 +51,6 @@ class MastermindController extends AbstractController
 
 
 	function initGame ($param) {
-		$row = 1;
 		$expertMode = $param['expertmode']; 
 		$numberOfColoursToFind = $param['numberofcolours'];
 
@@ -59,23 +59,26 @@ class MastermindController extends AbstractController
 		return $combinaison;
 	}
 
+
 	function createCombinaison ($expertMode, $numberOfColoursToFind) {
 		$availableColors = ['blanc' => '#FFFFFF', 'jaune' => '#FFF933', 'orange' => '#FF5733', 'rouge' => '#FF0000', 'bleu' => '#0000FF', 'vert' => '#00FF00', 'gris' => '#808080', 'rose' => '#FF00FF'];
-		$positionsColor = [];
+		$combinaison = [];
 		for ($i = 1; $i <= $numberOfColoursToFind; $i++) {
 			$couleurAléatoire = array_rand($availableColors);
-    		$positionsColor[$i] = $availableColors[$couleurAléatoire];
+    		$combinaison[$i] = $availableColors[$couleurAléatoire];
     		if ($expertMode == false) {
     			unset($availableColors[$couleurAléatoire]);
     		}    		
 		}
 
-		return $positionsColor;
+		return $combinaison;
 	}
+
 
 	function checkRow () {
 
 	}
+
 
 	/**
 	* @route("/scores", name="scores")

@@ -1,6 +1,6 @@
 {# templates/base.html.twig #}
 <!DOCTYPE html>
-<html>
+<html lang='fr'>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,8 +13,8 @@
 
     </head>
     <body>
-        <div id="sidebar">
-            {% block sidebar %}
+        <div id="header">
+            {% block header %}
                 <ul>
                     <li><a href={{ url('home') }}>Home</a></li>
                     <li><a href={{ url('scores') }}>Scores</a></li>
