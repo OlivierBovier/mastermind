@@ -2,7 +2,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Partie en cours</h1>
+    <h1>Partie en cours de {{ pseudo }}</h1>
 
     {% for key, color in combinaison %}
     	{{ key }} : {{ color}}

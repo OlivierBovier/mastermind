@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,6 +23,10 @@ class MastermindController extends AbstractController
 		// $game = new Game();
 
 	    $form = $this->createFormBuilder()
+	    	->add('playerPseudo', TextType::class, [
+    			'label'    => 'Entrer votre pseudo (facultatif)',
+    			'required' => false,
+				])
 	        ->add('expertmode', CheckboxType::class, [
     			'label'    => 'Mode Expert (la même couleur peut être présente plusieurs fois dans la combinaison)',
     			'required' => false,
@@ -41,8 +46,11 @@ class MastermindController extends AbstractController
 	    if ($form->isSubmitted() && $form->isValid()) {
 	        $param = $form->getData();
 	        $combinaison = $this->initGame($param);
+	        $pseudo = $param['playerPseudo'];
 
-	        return $this->render('game.html.twig', ['combinaison' => $combinaison]);
+	        return $this->render('game.html.twig', [
+			'pseudo' => $pseudo,
+			'combinaison' => $combinaison]);
 	    }
 
 	    return $this->render('init.html.twig', ['form' => $form->createView()]);		
@@ -74,10 +82,6 @@ class MastermindController extends AbstractController
 		return $combinaison;
 	}
 
-
-	function checkRow () {
-
-	}
 
 
 	/**

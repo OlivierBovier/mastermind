@@ -13,17 +13,23 @@
 
     </head>
     <body>
-        <div id="header">
-            {% block header %}
-                <ul>
-                    <li><a href={{ url('home') }}>Home</a></li>
-                    <li><a href={{ url('scores') }}>Scores</a></li>
-                </ul>
-            {% endblock %}
-        </div>
+        <div class="container-fluid">
+            <div id="header">
+                {% block header %}
+                    <div class="row">
+                        <div class="col-sm">
+                          <a href={{ url('home') }}>Home</a>
+                        </div>
+                        <div class="col-sm">
+                          <a href={{ url('scores') }}>Scores</a>
+                        </div>
+                      </div>
+                {% endblock %}
+            </div>
 
-        <div id="content">
-            {% block body %}{% endblock %}
+            <div id="content">
+                {% block body %}{% endblock %}
+            </div>
         </div>
 
         {% block javascripts %}          
